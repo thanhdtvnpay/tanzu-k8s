@@ -1,9 +1,9 @@
 Tanzu Compute
 ==================
 ## 1. Requirement (install script on base/scripts on project)
-####kubectl
-####helm, helmfile, diff
-####...
+- kubectl
+- helm, helmfile, diff
+- ...
 
 ## 2. Helm install Repos
 - helm repo add bitnami https://charts.bitnami.com/bitnami #bitnami charts
@@ -13,8 +13,8 @@ Tanzu Compute
 - helm repo list
 - helm repo update
 
-## 2. Kubectl Command CLI
-####get pod, service, ingress ...
+## 3. Kubectl Command CLI
+- Get pod, service, ingress ...
 
 ```javascript
 kubectl get node -A -o wide
@@ -25,18 +25,18 @@ kubectl -n namespace get ingress
 kubectl -n namespace get replicasets.apps
 ....
 ```
-####describe pod, service, ingress ...
+- Describe pod, service, ingress ...
 ```javascript
 kubectl -n namespace describe pods name-pod
 kubectl -n namespace describe service name-service
 kubectl -n namespace describe ingress name-ingress
 ....
 ```
-####logs pod
+- Logs pod
 ```javascript
 kubectl -n namespace logs -f name-pod
 ```
-####exec to pod
+- Exec to pod
 ```javascript
 kubectl -n namespace exec -it client-pod -- bash
 ```
