@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: test-ingress
+  labels:
+    app: httpbin
+  name: httpbin
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: httpbin
+  template:
+    metadata:
+      labels:
+        app: httpbin
+    spec:
+      containers:
+      - image: docker.io/kennethreitz/httpbin
+        name: httpbin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: test-ingress
+  labels:
+    app: httpbin
+  name: httpbin
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: httpbin
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: test-ingress
+  name: httpbin
+  annotations:
+    #ingress.kubernetes.io/force-ssl-redirect: "true"
+    #kubernetes.io/ingress.class: contour
+  labels:
+    app: httpbin
+spec:
+  rules:
+  - host: httpbin.vnpaytest.vn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: httpbin
+          servicePort: 80
+#spec:
+#  tls:
+#  - secretName: https-secret
+#    hosts:
+#      - httpbin.vnpaytest.vn
+#  rules:
+#  - host: httpbin.vnpaytest.vn
+#    http:
+#      paths:
+#      - path: /
+#        backend:
+#          serviceName: httpbin
+#          servicePort: 80

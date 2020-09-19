@@ -1,0 +1,131 @@
+global:
+  rbac:
+    create: true
+    pspEnabled: true
+  
+##### grafana #####
+grafana:
+  enabled: false
+  
+##### prometheus #####
+prometheusOperator:
+  manageCrds: true
+  createCustomResource: true
+  cleanupCustomResource: false
+  priorityClassName: addons-critical
+
+prometheus:
+  podDisruptionBudget:
+    enabled: true
+  prometheusSpec:
+    retention: 15d
+    walCompression: true
+    priorityClassName: addons-critical
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    storageSpec: {}
+      #volumeClaimTemplate:
+      #  spec:
+      #    accessModes: ["ReadWriteOnce"]
+      #    resources:
+      #      requests:
+      #        storage: 32Gi
+    resources:
+      requests:
+        cpu:    500m
+        memory: 512Mi
+      limits:
+        cpu:    "2"
+        memory: "2Gi"
+
+alertmanager:
+  podDisruptionBudget:
+    enabled: true
+  alertmanagerSpec:
+    retention: 360h # 15d
+    priorityClassName: addons-critical
+    storage: {}
+      #volumeClaimTemplate:
+      #  spec:
+      #    accessModes: ["ReadWriteOnce"]
+      #    resources:
+      #      requests:
+      #        storage: 2Gi
+    resources:
+      requests:
+        cpu:    500m
+        memory: 512Mi
+      limits:
+        cpu:    "2"
+        memory: "2Gi"
+
+##### kube-state-metrics #####
+kubeStateMetrics:
+  enabled: true
+
+kube-state-metrics:
+  # replicas: 1
+  # autosharding:
+  #   enabled: true
+  podSecurityPolicy:
+    enabled: true
+  podDisruptionBudget:
+    minAvailable: 1
+  priorityClassName: addons-critical
+
+##### prometheus-node-exporter #####
+nodeExporter:
+  enabled: true
+
+prometheus-node-exporter:
+  priorityClassName: addons-critical
+  tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+  - key: node-role.kubernetes.io/controlplane
+    operator: Exists
+  - key: node-role.kubernetes.io/etcd
+    operator: Exists
+
+##### Components Scraping #####
+.masterEndpoints: &masterEndpoints []
+# - 10.141.4.22
+# - 10.141.4.23
+# - 10.141.4.24
+
+kubeApiServer:
+  enabled: true
+  # tlsConfig:
+  #   serverName: kubernetes
+  #   insecureSkipVerify: false
+
+kubeControllerManager:
+  enabled: true
+  endpoints: *masterEndpoints
+
+kubeScheduler:
+  enabled: true
+  endpoints: *masterEndpoints
+
+kubeEtcd:
+  enabled: true
+  endpoints: *masterEndpoints
+
+kubelet:
+  enabled: true
+  # namespace: kube-system
+
+kubeProxy:
+  enabled: true
+  # endpoints: *nodeEndpoints
+
+coreDns:
+  enabled: true
+  service:
+    selector:
+      k8s-app: coredns
+
+kubeDns:
+  enabled: false

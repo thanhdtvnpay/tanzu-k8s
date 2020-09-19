@@ -1,0 +1,113 @@
+##### Kubernetes configuration #####
+ingress:
+  enabled: true
+  #annotations:
+  #  kubernetes.io/tls-acme: "true"
+  #  kubernetes.io/ingress.class: nginx
+  #tls:
+  #- secretName: grafana.data.vnpay.local-tls
+  #  hosts:
+  #  - grafana.data.vnpay.local
+  hosts:
+  - grafana.vnpay.local
+plugins:
+  - btplc-status-dot-panel
+
+priorityClassName: addons-critical
+
+podDisruptionBudget:
+  minAvailable: 1
+
+##### Grafana configuration #####
+grafana.ini:
+  server:
+    domain:   grafana.vnpay.local
+    root_url: https://grafana.vnpay.local
+  database:
+    type:     postgres
+    host:     10.10.26.26:5432
+    name:     grafana
+    user:     grafana
+    password: Vnpay@123
+  # smtp:
+  #   # Gmail:    https://support.google.com/a/answer/176600?hl=en
+  #   # SendGrid: https://sendgrid.com/docs/API_Reference/SMTP_API/getting_started_smtp.html
+  #   enabled: true
+  #   host:         smtp.gmail.com:587
+  #   user:         devops@kites.rocks
+  #   password:     supersecret
+  #   from_name:    Grafana
+  #   from_address: devops@kites.rocks
+  # auth:
+  #   oauth_auto_login: true
+  #   disable_login_form: true
+  #   signout_redirect_url: https://teko.vn
+  # auth.basic:
+  #   enabled: true # Keep basic auth for CI/CD
+  # auth.generic_oauth:
+  #   enabled: true
+  #   name: KeyCloak
+  #   allow_sign_up: true
+  #   client_id:     {{ requiredEnv "GRAFANA_AUTH_CLIENTID" | quote }}
+  #   client_secret: {{ requiredEnv "GRAFANA_AUTH_CLIENTSECRET" | quote }}
+  #   scopes:    openid profile email
+  #   auth_url:  https://keycloak.data.vnpay.local/auth/realms/data/protocol/openid-connect/auth
+  #   token_url: https://keycloak.data.vnpay.local/auth/realms/data/protocol/openid-connect/token
+  #   api_url:   https://keycloak.data.vnpay.local/auth/realms/data/protocol/openid-connect/userinfo
+  #   tls_skip_verify_insecure: true
+
+# ldap: {}
+# smtp: {}
+
+adminUser:     admin
+adminPassword: Vnpay@123
+
+# plugins: []
+# notifiers: {}
+datasources:
+  datasources.yaml:
+    # ref: https://grafana.com/docs/administration/provisioning/#datasources
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      uid:  prometheus.compute.data.vnpay
+      url:  http://promops-prometheus.observability-system:9090
+      access: proxy
+      isDefault: true
+    - name: Compute/Loki
+      type: loki
+      uid:  loki.compute.data.vnpay
+      url:  http://loki.observability-system:3100
+      access: proxy
+    # - name: Storage/Prometheus
+    #   type: prometheus
+    #   uid:  prometheus.storage.data.vnpay
+    #   url:  http://prometheus-storage.data.vnpay.local
+    #   access: proxy
+      ### BUG: golang "Host" request header doesn't have effect
+      ### ref: https://github.com/golang/go/issues/7682
+      # jsonData:
+      #   httpHeaderName1: Host
+      # secureJsonData:
+      #   httpHeaderValue1: prometheus.data.storage.local
+    # - name: Storage/Loki
+    #   type: loki
+    #   uid:  loki.storage.data.vnpay
+    #   url:  http://loki-storage.data.vnpay.local
+    #   access: proxy
+# dashboards: {}
+# dashboardProviders: {}
+# dashboardsConfigMaps: {}
+
+##### Sidecar configuration #####
+# sidecar:
+#   dashboards:
+#     enabled: true
+#     folder: /var/lib/grafana/dashboards/default
+#   datasources:
+#     enabled: true
+
+##### Test framework #####
+testFramework:
+  enabled: false

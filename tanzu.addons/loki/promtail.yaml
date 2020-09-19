@@ -1,0 +1,26 @@
+loki:
+  serviceName:   loki
+  servicePort:   3100
+  serviceScheme: http
+
+pipelineStages:
+- cri: {}
+# - docker: {}
+
+syslogService:
+  enabled: false
+
+priorityClassName: addons-critical
+
+tolerations:
+- effect: NoSchedule
+  operator: Exists
+- key: node-role.kubernetes.io/master
+  operator: Exists
+- key: node-role.kubernetes.io/controlplane
+  operator: Exists
+- key: node-role.kubernetes.io/etcd
+  operator: Exists
+
+serviceMonitor:
+  enabled: true

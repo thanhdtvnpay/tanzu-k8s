@@ -1,0 +1,8 @@
+releases:
+- name: metallb
+  namespace: metallb-system
+  chart: stable/metallb
+  version: 0.12.0
+  values:
+  - ./metallb.yaml
+  - fullnameOverride: metallb

@@ -1,0 +1,31 @@
+existingConfigMap: null
+# ref: https://metallb.universe.tf/configuration/
+configInline:
+  address-pools:
+  - name: default
+    protocol: layer2
+    addresses:
+    - 10.10.26.128/26
+    auto-assign: false
+
+controller:
+  image:
+    tag: v0.8.3
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+speaker:
+  image:
+    tag: v0.8.3
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+prometheus:
+  serviceMonitor:
+    enabled: true
+  prometheusRule:
+    enabled: true

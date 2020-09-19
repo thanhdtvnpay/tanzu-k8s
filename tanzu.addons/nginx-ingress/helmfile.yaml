@@ -1,0 +1,10 @@
+releases:
+- name: nginx-ingress
+  namespace: nginx-ingress
+  chart: stable/nginx-ingress
+  version: 1.40.2
+  values:
+  - ./nginx-ingress.yaml
+  - ./daemonset.yaml
+  - ./cloud.yml
+  - fullnameOverride: nginx-ingress

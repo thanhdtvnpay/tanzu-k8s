@@ -1,0 +1,16 @@
+releases:
+- name: loki
+  namespace: observability-system
+  chart: loki/loki
+  version: 0.30.1
+  values:
+  - ./loki.yaml
+  - fullnameOverride: loki
+
+- name: promtail
+  namespace: observability-system
+  chart: loki/promtail
+  version: 0.23.2
+  values:
+  - ./promtail.yaml
+  - fullnameOverride: promtail

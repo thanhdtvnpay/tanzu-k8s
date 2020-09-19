@@ -1,0 +1,8 @@
+releases:
+- name: node-problem-detector
+  namespace: kube-system
+  chart: stable/node-problem-detector
+  version: 1.7.6
+  values:
+  - ./node-problem-detector.yaml
+  - fullnameOverride: node-problem-detector

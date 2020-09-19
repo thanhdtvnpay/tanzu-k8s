@@ -1,0 +1,6 @@
+controller:
+  kind: DaemonSet # DaemonSet | Deployment | Both
+
+  hostNetwork: true
+  # daemonset:
+  #   useHostPort: true

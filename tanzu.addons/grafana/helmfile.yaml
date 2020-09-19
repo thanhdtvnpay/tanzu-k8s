@@ -1,0 +1,8 @@
+releases:
+- name: grafana
+  namespace: observability-system
+  chart: stable/grafana
+  version: 5.5.2
+  values:
+  - ./grafana.yaml.gotmpl
+  - fullnameOverride: grafana

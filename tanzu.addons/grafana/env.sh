@@ -1,0 +1,8 @@
+export GRAFANA_DATABASE_USERNAME=$(yq read "${COMPUTE_CONFIG}" grafana.database.username)
+export GRAFANA_DATABASE_PASSWORD=$(yq read "${COMPUTE_CONFIG}" grafana.database.password)
+export GRAFANA_ADMIN_USERNAME=$(yq read "${COMPUTE_CONFIG}" grafana.admin.username)
+export GRAFANA_ADMIN_PASSWORD=$(yq read "${COMPUTE_CONFIG}" grafana.admin.password)
+export GRAFANA_AUTH_CLIENTID=$(yq read "${COMPUTE_CONFIG}" grafana.auth.clientId)
+export GRAFANA_AUTH_CLIENTSECRET=$(yq read "${COMPUTE_CONFIG}" grafana.auth.clientSecret)
+export GRAFANA_SMTP_USERNAME=$(yq read "${COMPUTE_CONFIG}" grafana.smtp.username)
+export GRAFANA_SMTP_PASSWORD=$(yq read "${COMPUTE_CONFIG}" grafana.smtp.password)

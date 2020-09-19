@@ -1,0 +1,70 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello
+  namespace: test-ingress
+spec:
+  selector:
+    app: hello
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  namespace: test-ingress
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: hello
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: hello
+          image: "gcr.io/google-samples/hello-go-gke:1.0"
+          ports:
+            - name: http
+              containerPort: 80
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: test-ingress
+  name: hello-ingress
+  annotations:
+    #ingress.kubernetes.io/force-ssl-redirect: "true"
+    #kubernetes.io/ingress.class: contour
+spec:
+  rules:
+  - host: hello.vnpaytest.vn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: hello
+          servicePort: 80
+#spec:
+#  tls:
+#  - secretName: https-secret
+#    hosts:
+#      - hello.vnpaytest.vn
+#  rules:
+#  - host: hello.vnpaytest.vn
+#    http:
+#      paths:
+#      - path: /
+#        backend:
+#          serviceName: hello
+#          servicePort: 80

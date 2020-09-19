@@ -1,0 +1,40 @@
+config:
+  schema_config:
+    configs:
+    - store: boltdb
+      object_store: filesystem
+      # object_store: s3
+      schema: v11
+      index:
+        prefix: index_
+      chunks:
+        prefix: chunks_
+  storage_config:
+    boltdb:
+      directory: /data/loki/index
+    filesystem:
+      directory: /data/loki/chunks
+    # aws:
+    #   s3: s3://admin:Teko%40123@minio.dwh-storage:9000/kube-logs # no trailing /
+    #   s3forcepathstyle: true
+  table_manager:
+    retention_deletes_enabled: true
+    retention_period: 72h # 3days
+
+# extraArgs:
+#   log.level: debug
+
+replicas: 1
+priorityClassName: addons-critical
+
+podDisruptionBudget:
+  minAvailable: 1
+
+# persistence:
+#   enabled: true
+
+serviceMonitor:
+  enabled: true
+
+tracing:
+  jaegerAgentHost:
