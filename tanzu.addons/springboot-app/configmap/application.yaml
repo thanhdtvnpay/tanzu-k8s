@@ -1,0 +1,44 @@
+server:
+  address: 0.0.0.0
+  port: 8088
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  config: config/log4j2.xml
+spring:
+  rabbitmq:
+    host: rabbitmq-demo-app
+    port: 5672
+    username: qrcode
+    password: qrcode
+    requested-heartbeat: 45
+    virtual-host: qrcode
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@10.22.7.63:1521/GTGT
+    username: MMS
+    password: mms
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      max-lifetime: 1000
+  jpa:
+    show-sql: true
+  redis:
+    database: 0
+    password: 2ehreCKXtO
+    sentinel:
+      master: mymaster
+      nodes: 
+        - redis:26379
+    jedis:
+      pool:
+        max-idle: 10
+        max-active: 20
+        max-wait: 100
+        min-idle: 5

@@ -1,0 +1,8 @@
+releases:
+- name: redis-ha
+  namespace: demo-app
+  chart: stable/redis-ha
+  version: 4.4.4
+  values:
+  - ./redis.yaml
+  - fullnameOverride: redis-ha

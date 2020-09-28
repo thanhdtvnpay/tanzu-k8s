@@ -1,8 +1,8 @@
 releases:
 - name: contour
-    namespace: contour
-    chart: bitnami/contour
-    version: 1.1.1
-    values:
-    - ./contour.yaml
-    - fullnameOverride: contour
+  namespace: contour
+  chart: bitnami/contour
+  version: 1.1.1
+  values:
+  - ./contour.yaml
+  - fullnameOverride: contour

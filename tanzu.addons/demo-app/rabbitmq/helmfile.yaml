@@ -1,0 +1,8 @@
+releases:
+- name: rabbitmq-demo-app
+  namespace: demo-app
+  chart: stable/rabbitmq
+  version: 6.18.2
+  values:
+  - ./rabbitmq.yaml
+  - fullnameOverride: rabbitmq-demo-app

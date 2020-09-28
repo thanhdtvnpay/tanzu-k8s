@@ -1,0 +1,63 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: spring-app
+  namespace: demo-app
+spec:
+  selector:
+    app: spring-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8088
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+  namespace: demo-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-app
+      redis-client: "true"
+  template:
+    metadata:
+      labels:
+        app: spring-app
+        redis-client: "true"
+    spec:
+      containers:
+        - name: spring-app
+          image: "lububu/app-demo:1.0.4"
+          volumeMounts:
+          - name: app-configmap
+            mountPath: "/config/"
+            readOnly: true
+      volumes:
+      - name: app-configmap
+        projected:
+          sources:
+          - configMap:
+              name: app-config
+          - configMap:
+              name: log-config
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: demo-app
+  name: spring-app-ingress
+  annotations:
+    #ingress.kubernetes.io/force-ssl-redirect: "true"
+    #kubernetes.io/ingress.class: contour
+spec:
+  rules:
+  - host: spring-app.vnpaytest.vn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: spring-app
+          servicePort: 80
