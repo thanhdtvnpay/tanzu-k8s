@@ -1,8 +1,8 @@
 releases:
 - name: metallb
   namespace: metallb-system
-  chart: stable/metallb
-  version: 0.12.0
+  chart: bitnami/metallb
+  version: 2.3.1
   values:
-  - ./metallb.yaml
+  - ./metallb.yaml.gotmpl
   - fullnameOverride: metallb

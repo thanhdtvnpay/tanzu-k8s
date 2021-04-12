@@ -2,4 +2,4 @@ controller:
   service:
     enabled: true
     type: LoadBalancer
-    loadBalancerIP: 10.10.26.130
+    loadBalancerIP: 10.10.26.52

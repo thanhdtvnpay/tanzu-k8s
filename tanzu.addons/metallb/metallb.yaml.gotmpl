@@ -1,0 +1,50 @@
+existingConfigMap: null
+## ref: https://metallb.universe.tf/configuration/
+# configInline:
+#   address-pools:
+#   - name: default
+#     protocol: layer2
+#     addresses:
+#     - 10.10.26.0/26
+#     auto-assign: false
+
+configInline:
+  peers:
+  - peer-address: 10.10.26.1
+    peer-asn: 65563
+    my-asn: 65564
+  address-pools:
+  - name: default
+    protocol: bgp
+    addresses:
+    - 10.10.26.0/26
+    auto-assign: false
+
+rbac:
+  create: true
+psp:
+  create: true
+
+controller:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+  prometheus:
+    serviceMonitor:
+      enabled: true
+
+speaker:
+  secretValue: {{ requiredEnv "METALLB_SPEAKER_SECRET" | quote }}
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+  prometheus:
+    serviceMonitor:
+      enabled: true
+
+prometheusRule:
+  enabled: true
