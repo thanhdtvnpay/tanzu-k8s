@@ -10,16 +10,19 @@ grafana:
 ##### prometheus-operator #####
 prometheusOperator:
   enabled: true
+  manageCrds: true
+  createCustomResource: true
+  cleanupCustomResource: false
   priorityClassName: addons-critical
-  admissionWebhooks:
-    enabled: true
-    patch:
-      enabled: true
-    certManager:
-      enabled: true
-      issuerRef:
-        name: ca-issuer
-        kind: ClusterIssuer
+  # admissionWebhooks:
+  #   enabled: true
+  #   patch:
+  #     enabled: true
+  #   certManager:
+  #     enabled: true
+  #     issuerRef:
+  #       name: ca-issuer
+  #       kind: ClusterIssuer
 
 ##### kube-state-metrics #####
 kubeStateMetrics:
