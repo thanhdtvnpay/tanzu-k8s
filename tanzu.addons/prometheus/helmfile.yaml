@@ -7,6 +7,7 @@ releases:
   - ./operator+deps.yaml
   - ./prometheus.yaml
   - ./scraping.yaml
+  - ./alertmanager.yaml
   - fullnameOverride: promops
   - prometheus-node-exporter:
       fullnameOverride: prometheus-node-exporter

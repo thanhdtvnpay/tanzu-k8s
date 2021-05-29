@@ -1,0 +1,54 @@
+alertmanager:
+  podDisruptionBudget:
+    enabled: true
+  alertmanagerSpec:
+    replicas: 1
+    retention: 360h # 15d
+    priorityClassName: addons-critical
+    storage: {}
+      # volumeClaimTemplate:
+      #   spec:
+      #     accessModes: ["ReadWriteOnce"]
+      #     resources:
+      #       requests:
+      #         storage: 2Gi
+    resources:
+      requests:
+        cpu:    500m
+        memory: 512Mi
+      limits:
+        cpu:    "2"
+        memory: "2Gi"
+
+  # https://prometheus.io/docs/alerting/latest/configuration/
+  # tplConfig: false
+  # config:
+  #   global:
+  #     resolve_timeout: 5m
+  #   templates:
+  #   - "*.tmpl"
+  #   route:
+  #     group_by: [alertname, job]
+  #     group_wait: 30s
+  #     group_interval: 5m
+  #     repeat_interval: 12h
+  #     receiver: dataops
+  #     routes: null
+  #   receivers:
+  #   - name: dataops
+  #     # email_configs:
+  #     # - send_resolved: true
+  #     #   to: data.infra@teko.vn
+  #     slack_configs:
+  #     - send_resolved: true
+  #       channel: '#data-alerts'
+  #       username: Prometheus
+  #       title:   '{{ template "slack.teko.title" . }}'
+  #       pretext: '{{ template "slack.teko.pretext" . }}'
+  #       text:    '{{ template "slack.teko.text" . }}'
+  #       color:   '{{ template "slack.teko.color" . }}'
+
+### References
+# * https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/
+# * https://gist.github.com/milesbxf/e2744fc90e9c41b47aa47925f8ff6512
+# * https://juliusv.com/promslack/
