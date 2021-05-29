@@ -34,10 +34,10 @@ releases:
   #     path: /metadata/name
   #     value: argus
 
-# - name: pushgateway
-#   namespace: observability-system
-#   chart: prometheus-community/prometheus-pushgateway
-#   version: 1.7.0
-#   values:
-#   - ./pushgateway.yaml
-#   - fullnameOverride: pushgateway
+- name: pushgateway
+  namespace: observability-system
+  chart: prometheus-community/prometheus-pushgateway
+  version: 1.7.0
+  values:
+  - ./pushgateway.yaml
+  - fullnameOverride: pushgateway
