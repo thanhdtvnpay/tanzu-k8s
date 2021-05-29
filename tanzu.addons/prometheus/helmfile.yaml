@@ -13,27 +13,7 @@ releases:
       fullnameOverride: prometheus-node-exporter
   - kube-state-metrics:
       fullnameOverride: kube-state-metrics
-  ## TODO
-  # jsonPatches:
-  # - target:
-  #     group: monitoring.coreos.com
-  #     version: v1
-  #     kind: Alertmanager
-  #     name: promops-alertmanager
-  #   patch:
-  #   - op: replace
-  #     path: /metadata/name
-  #     value: argus
-  # - target:
-  #     group: monitoring.coreos.com
-  #     version: v1
-  #     kind: Prometheus
-  #     name: promops-prometheus
-  #   patch:
-  #   - op: replace
-  #     path: /metadata/name
-  #     value: argus
-
+  
 - name: pushgateway
   namespace: observability-system
   chart: prometheus-community/prometheus-pushgateway

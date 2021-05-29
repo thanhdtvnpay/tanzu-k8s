@@ -1,0 +1,17 @@
+persistentVolume:
+  enabled: false
+
+resources:
+  requests:
+    cpu:    "500m"
+    memory: "1Gi"
+  limits:
+    cpu:    "2"
+    memory: "4Gi"
+
+podDisruptionBudget:
+  minAvailable: 1
+
+serviceMonitor:
+  enabled: true
+  namespace: null
