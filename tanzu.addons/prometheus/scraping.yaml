@@ -1,0 +1,53 @@
+.masterEndpoints: &masterEndpoints
+- 10.10.26.143
+
+.nodeEndpoints: &nodeEndpoints
+# masters
+- 10.10.26.143
+# workers
+- 10.10.26.144
+- 10.10.26.145
+- 10.10.26.146
+
+kubeEtcd:
+  enabled: true
+  endpoints: *masterEndpoints
+  service:
+    port: 2381
+    targetPort: 2381
+  serviceMonitor:
+    scheme: http
+
+kubeApiServer:
+  enabled: true
+  # tlsConfig:
+  #   serverName: kubernetes
+  #   insecureSkipVerify: false
+
+kubeControllerManager:
+  enabled: true
+  endpoints: *masterEndpoints
+
+kubeScheduler:
+  enabled: true
+  endpoints: *masterEndpoints
+
+kubelet:
+  enabled: true
+  # namespace: kube-system
+  serviceMonitor:
+    # From kubernetes 1.18, /metrics/resource/v1alpha1 renamed to /metrics/resource
+    resourcePath: /metrics/resource
+
+kubeProxy:
+  enabled: true
+  endpoints: *nodeEndpoints
+
+coreDns:
+  enabled: true
+  service:
+    selector:
+      k8s-app: coredns
+
+kubeDns:
+  enabled: false

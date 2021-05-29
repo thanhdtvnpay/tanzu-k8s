@@ -1,0 +1,52 @@
+global:
+  rbac:
+    create: true
+    pspEnabled: true
+
+##### grafana #####
+grafana:
+  enabled: false
+
+##### prometheus-operator #####
+prometheusOperator:
+  enabled: true
+  priorityClassName: addons-critical
+  admissionWebhooks:
+    enabled: true
+    patch:
+      enabled: true
+    certManager:
+      enabled: true
+      issuerRef:
+        name: ca-issuer
+        kind: ClusterIssuer
+
+##### kube-state-metrics #####
+kubeStateMetrics:
+  enabled: true
+
+kube-state-metrics:
+  # replicas: 1
+  # autosharding:
+  #   enabled: true
+  podSecurityPolicy:
+    enabled: true
+  podDisruptionBudget:
+    minAvailable: 1
+  priorityClassName: addons-critical
+
+##### prometheus-node-exporter #####
+nodeExporter:
+  enabled: true
+
+prometheus-node-exporter:
+  priorityClassName: addons-critical
+  tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+  - key: node-role.kubernetes.io/controlplane
+    operator: Exists
+  - key: node-role.kubernetes.io/etcd
+    operator: Exists

@@ -1,0 +1,25 @@
+prometheus:
+  podDisruptionBudget:
+    enabled: true
+  prometheusSpec:
+    retention: 15d
+    walCompression: true
+    priorityClassName: addons-critical
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    storageSpec: {}
+      # volumeClaimTemplate:
+      #   spec:
+      #     accessModes: ["ReadWriteOnce"]
+      #     resources:
+      #       requests:
+      #         storage: 32Gi
+    resources:
+      requests:
+        cpu:    "1"
+        memory: "2Gi"
+      limits:
+        cpu:    "16"
+        memory: "16Gi"

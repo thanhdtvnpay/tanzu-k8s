@@ -1,33 +1,42 @@
 releases:
 - name: prometheus
-    namespace: observability-system
-    chart: stable/prometheus-operator
-    disableValidation: true
-    version: 9.3.1
-    values:
-    - ./prometheus-operator.yaml
-    - fullnameOverride: promops
-    - prometheus-node-exporter:
-        fullnameOverride: prometheus-node-exporter
-    - kube-state-metrics:
-        fullnameOverride: kube-state-metrics
-    ## TODO
-    # jsonPatches:
-    # - target:
-    #     group: monitoring.coreos.com
-    #     version: v1
-    #     kind: Alertmanager
-    #     name: promops-alertmanager
-    #   patch:
-    #   - op: replace
-    #     path: /metadata/name
-    #     value: argus
-    # - target:
-    #     group: monitoring.coreos.com
-    #     version: v1
-    #     kind: Prometheus
-    #     name: promops-prometheus
-    #   patch:
-    #   - op: replace
-    #     path: /metadata/name
-    #     value: argus
+  namespace: observability-system
+  chart: prometheus-community/kube-prometheus-stack
+  version: 16.1.1
+  values:
+  - ./operator+deps.yaml
+  - ./prometheus.yaml
+  - ./scraping.yaml
+  - fullnameOverride: promops
+  - prometheus-node-exporter:
+      fullnameOverride: prometheus-node-exporter
+  - kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+  ## TODO
+  # jsonPatches:
+  # - target:
+  #     group: monitoring.coreos.com
+  #     version: v1
+  #     kind: Alertmanager
+  #     name: promops-alertmanager
+  #   patch:
+  #   - op: replace
+  #     path: /metadata/name
+  #     value: argus
+  # - target:
+  #     group: monitoring.coreos.com
+  #     version: v1
+  #     kind: Prometheus
+  #     name: promops-prometheus
+  #   patch:
+  #   - op: replace
+  #     path: /metadata/name
+  #     value: argus
+
+# - name: pushgateway
+#   namespace: observability-system
+#   chart: prometheus-community/prometheus-pushgateway
+#   version: 1.7.0
+#   values:
+#   - ./pushgateway.yaml
+#   - fullnameOverride: pushgateway

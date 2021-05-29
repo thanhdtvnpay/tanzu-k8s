@@ -1,0 +1,16 @@
+envoy:
+  enabled: true
+  hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
+  useHostPort: false
+  useHostIP: false
+
+  service:
+    type: ClusterIP
+    externalTrafficPolicy: null
+    #nodePorts:
+    #  http: 30080
+    #  https: 30443
+
+defaultBackend:
+  enabled: true
